@@ -5,6 +5,10 @@ on:
     branches:
       - "feature-*"
 
+permissions:  # 👈 Add this block
+  contents: write
+  pull-requests: write  # 👈 This is required to create PRs
+
 jobs:
   create-pr:
     runs-on: ubuntu-latest
@@ -14,6 +18,8 @@ jobs:
 
       - name: Create Pull Request
         run: |
-          gh pr create --base main --head ${{ github.ref_name }} --title "Auto PR: ${{ github.ref_name }}" --body "This PR was automatically created when the branch was pushed."
+          gh pr create --base main --head ${{ github.ref_name }} \
+          --title "Auto PR: ${{ github.ref_name }}" \
+          --body "This PR was automatically created when the branch was pushed."
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
